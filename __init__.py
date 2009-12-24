@@ -62,7 +62,7 @@ class Application(object):
             return [fd.read()]
 
 
-    def run(self. environ, start_response):
+    def run(self, environ, start_response):
         try:
             return self._run(environ, start_response)
         except Exception, ex:
