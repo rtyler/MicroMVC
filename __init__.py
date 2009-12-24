@@ -21,6 +21,7 @@ def run(app, host='', port=8081):
 
 class Application(object):
     ''' Subclassable WSGI application handle '''
+    _controllers = None
 
     static_types = {
         'png' : 'image/png',
@@ -31,12 +32,17 @@ class Application(object):
         'js'  : 'text/javascript',
     }
 
+    def load_controllers(self):
+        self._controllers = {}
+
     def controllers(self):
-        return {}
+        if not self._controllers:
+            self.load_controllers()
+        return self._controllers
 
     def _run(self, environ, start_response):
         path = environ['PATH_INFO']
-        controller = self.controllers.get(path)
+        controller = self.controllers().get(path)
 
         if controller:
             klass, attr = controller
@@ -61,6 +67,8 @@ class Application(object):
         with open(os.getcwd() + path, 'r') as fd:
             return [fd.read()]
 
+    def __call__(self, environ, start_response):
+        return self.run(environ, start_response)
 
     def run(self, environ, start_response):
         try:
