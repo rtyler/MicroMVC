@@ -143,8 +143,8 @@ class Application(object):
             return ['Not Found\r\n']
 
         segments = path.split('.')
-        if static_types.get(segments[-1]):
-            start_response('200 OK', [('Content-Type', static_types[segments[-1]])])
+        if self.static_types.get(segments[-1]):
+            start_response('200 OK', [('Content-Type', self.static_types[segments[-1]])])
         else:
             start_response('200 OK', [('Content-Type', 'text/plain')])
 
