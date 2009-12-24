@@ -11,6 +11,10 @@ class home(controller.BaseController):
     def index(self, **kwargs):
         return self.render('index')
 
+    @controller.action(paths=('/test',))
+    def testy(self):
+        return 'Feeling testy?'
+
     @controller.action()
     def home(self, **kwargs):
         return 'Fail'

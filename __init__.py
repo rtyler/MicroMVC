@@ -103,13 +103,11 @@ class Application(object):
                 if not getattr(o, 'action', False):
                     continue
 
-                if not getattr(o, 'paths', False):
-                    ## yield a default mapping for path-less actions
-                    ## yields up Controller/Action
-                    yield ('/%s/%s' % (klass.__name__, attr), (klass, attr))
-                    continue
+                ## yield a default mapping for path-less actions
+                ## yields up Controller/Action
+                yield ('/%s/%s' % (klass.__name__, attr), (klass, attr))
 
-                for path in getattr(o, 'paths'):
+                for path in getattr(o, 'paths', []):
                     yield (path, (klass, attr))
 
     def _controllers(self):
