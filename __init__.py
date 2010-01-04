@@ -120,6 +120,10 @@ class Application(object):
             self._cached_views = dict(self._load_views())
         return self._cached_views
 
+    def handle_404(self, environ, start_response):
+        start_response('404 Not Found', [('Content-Type', 'text/plain')])
+        return ['Not Found\r\n']
+
     def _run(self, environ, start_response):
         path = environ['PATH_INFO']
         controller = self._controllers().get(path)
@@ -137,8 +141,7 @@ class Application(object):
         ## I'm just going to bounce them back
         if '..' in path or not path.startswith('/static') \
                 or not os.path.exists(os.getcwd() + path):
-            start_response('404 Not Found', [('Content-Type', 'text/plain')])
-            return ['Not Found\r\n']
+            return self.handle_404(environ, start_response)
 
         segments = path.split('.')
         if self.static_types.get(segments[-1]):
