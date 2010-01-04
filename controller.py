@@ -12,8 +12,8 @@ class GenericControllerException(Exception):
 
 code_map = {
         200 : '200 OK',
-        301 : 'Moved Permanently',
-        302 : 'Moved Temporarily',
+        301 : '301 Moved Permanently',
+        302 : '302 Moved Temporarily',
         404 : '404 Not Found',
 }
 
@@ -70,7 +70,7 @@ class BaseController(object):
 
     def finalize(self, output):
         logging.debug(self.headers)
-        self._start(code_map[self.code], [('Content-Type', self.content_type)] + self.headers)
+        self._start(code_map[self.code], self.headers + [('Content-Type', self.content_type)])
         return output
 
     def __iterquerystring(self):
