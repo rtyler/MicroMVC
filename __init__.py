@@ -38,6 +38,8 @@ class Application(object):
         'gif' : 'image/git',
         'css' : 'text/css',
         'js'  : 'text/javascript',
+        'html' : 'text/html',
+        'zip' : 'application/zip',
     }
 
     def controllers(self):
